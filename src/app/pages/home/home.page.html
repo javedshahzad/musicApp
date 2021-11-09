@@ -1,0 +1,115 @@
+<ion-header>
+  <ion-toolbar>
+      <div class="language" slot="end" routerLink="/language">
+        <ion-icon name="globe"></ion-icon>
+      </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="logo">
+    <img src="../../../assets/img/titel.jpg" alt="Logo" class="logo_image">
+  </div>
+  <p class="text">{{language_data.News}} & {{language_data.favourite}}</p>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <div class="main" routerLink="/news">
+          <img src="../../../assets/img/news.jpg" alt="Website" class="genere_image">
+          <h3 class="centered">{{language_data.gotonews}}</h3>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <div class="main" routerLink="/favouritesong">
+          <img src="../../../assets/genere/favorites.jpg" alt="Website" class="genere_image">
+          <h3 class="centered">{{language_data.favourite}}</h3>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <p class="text">{{language_data.stream}}</p>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <div class="main" (click)="genre_list('ROCK')">
+          <img src="../../../assets/genere/rock.jpg" alt="Website" class="genere_image">
+          <h3 class="centered">{{language_data.ROCK}}</h3>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+ 
+        <div class="main" (click)="genre_list('POP')">
+          <img src="../../../assets/genere/pop.jpg" alt="Website" class="genere_image">
+          <h3 class="centered">{{language_data.POP}}</h3>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <div class="main" (click)="genre_list('JAZZ')">
+          <img src="../../../assets/genere/jazz.jpg" alt="Website" class="genere_image">
+          <h3 class="centered">{{language_data.JAZZ}}</h3>
+        </div>
+      </ion-col>
+      
+      <ion-col size="6">
+        <div class="main" (click)="genre_list('COUNTRY')">
+          <img src="../../../assets/genere/country.jpg" alt="Website" class="genere_image">
+          <h3 class="centered">{{language_data.COUNTRY}}</h3>
+        </div>
+      </ion-col>
+      
+      <ion-col size="6">
+        <div class="main" (click)="genre_list('METAL')">
+          <img src="../../../assets/genere/metal.jpg" alt="Website" class="genere_image">
+          <h3 class="centered">{{language_data.METAL}}</h3>
+        </div>
+      </ion-col>
+      
+      <ion-col size="6">
+        <div class="main" (click)="genre_list('PUNK')">
+          <img src="../../../assets/genere/punk.jpg" alt="Website" class="genere_image">
+          <h3 class="centered">{{language_data.PUNK}}</h3>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <div class="main" (click)="genre_list('ELECTRIC')">
+          <img src="../../../assets/genere/electric.jpg" alt="Website" class="genere_image">
+          <h3 class="centered">{{language_data.ELECTRIC}}</h3>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <div class="main" (click)="genre_list('WAVE')">
+          <img src="../../../assets/genere/wave.jpg" alt="Website" class="genere_image">
+          <h3 class="centered">{{language_data.WAVE}}</h3>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <div class="main" (click)="genre_list('SCHLAGER')">
+          <img src="../../../assets/genere/all-genres.jpg" alt="Website" class="genere_image">
+          <h3 class="centered">{{language_data.SCHLAGER}}</h3>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <div class="main" (click)="genre_list('OTHER')">
+          <img src="../../../assets/genere/genres-other.jpg" alt="Website" class="genere_image">
+          <h3 class="centered">{{language_data.OTHER}}</h3>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <p class="text">{{language_data.Links}}</p>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <div class="main" (click)="facebook()">
+          <img src="../../../assets/img/facebook.jpg" alt="Website" class="genere_image">
+          <h3 class="centered">{{language_data.Facebook}}</h3>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <div class="main" (click)="wesite()">
+          <img src="../../../assets/img/website.jpg" alt="Website" class="genere_image">
+          <h3 class="centered">{{language_data.Website}}</h3>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-icon name="chevron-back" slot="start" id="back" routerLink="/home"></ion-icon>
+    <ion-title>{{language_data.News}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+
+  </div>
+  <div class="main" *ngFor="let item of allnews">
+    <div class="image">
+      <img src="https://popsaxony.net/public/upload/images/{{item.image}}" alt="">
+    </div>
+    <div class="lower">
+      <ion-item  lines="none" detail="false" style="--background:transparent" class="category">
+        <p>{{language_data.News}}</p>
+        <p slot="end">{{item.date}}</p>
+      </ion-item>
+      <div class="heading">
+        <h3>{{item.title}}</h3>
+      </div>
+      <div class="contents_area">
+        <p>{{htmlconvert(item.text)}}</p>
+      </div>
+      <!-- <div class="arrow">
+        <p>Weiterlesen <i class="fas fa-arrow-right"></i> </p>
+      </div> -->
+    </div>
+  </div>
+  <!-- <div class="main">
+    <div class="image">
+      <img src="../../../assets/img/news.jpg" alt="">
+    </div>
+    <div class="lower">
+      <ion-item  lines="none" detail="false" style="--background:transparent" class="category">
+        <p>Kategorie</p>
+        <p slot="end">23. März 2021</p>
+      </ion-item>
+      <div class="heading">
+        <h3>Familientag in Berlin</h3>
+      </div>
+      <div class="contents_area">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda ex laborum, repellat error laudantium facilis ipsum officia.</p>
+      </div>
+      <div class="arrow">
+        <p>Weiterlesen <i class="fas fa-arrow-right"></i> </p>
+      </div>
+    </div>
+  </div> -->
+
+
+  
+</ion-content>

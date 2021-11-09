@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" routerLink="/home">
+      <ion-icon name="arrow-back-outline" class="backbtn"></ion-icon>
+    </ion-buttons>
+    <ion-title>Select Language</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <!-- <div class="inputs">
+    <label for="email" class="label">Select Language</label>
+    <select name="cars" id="cars" class="inputstyle" [(ngModel)]="selectedLanguage" (ionChange)="languageChanged()">
+      <option value="en">English</option>
+      <option value="gr">Germen</option>
+    </select>
+  </div> -->
+
+    <ion-item lines="none" detail="false" style="--background: transparent;color: #fff;">
+      <ion-label>Select Language</ion-label>
+      <ion-select  style="--background: transparent; color: #fff;" placeholder="Select One" [(ngModel)]="selectedLanguage" (ionChange)="languageChanged()">
+        <ion-select-option value="en">English</ion-select-option>
+        <ion-select-option value="gr">Germen</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <h2 style="color: #fff; margin: 10px;">{{current_language}}</h2>
+</ion-content>

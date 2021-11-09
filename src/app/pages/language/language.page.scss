@@ -1,0 +1,34 @@
+ion-content{
+    --background:#000930;
+  }
+  ion-toolbar{
+    --background:#000930;
+    color: #fff;
+  }
+  .inputs{
+    padding: 40px;
+  }
+  .inputs .label{
+    color: #FFF;
+    text-align: start;
+    font-size: 14px;
+    margin-left: 5px;;
+    font-weight: 500;
+}
+.inputs .inputstyle{
+    height: 42px;
+    width: 100%;
+    margin: 5px 0 5px 0;
+    outline: none;
+    border: none;
+    background: #f0f0f0;
+    font-size: 15px;
+    border-radius: 10px;
+    color: #b6b6b6;
+    padding-left: 10px;
+}
+.backbtn{
+    color: #fff;
+    font-size: 22px;
+    margin-left: 15px;
+  }

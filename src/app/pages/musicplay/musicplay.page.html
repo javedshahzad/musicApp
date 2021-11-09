@@ -1,0 +1,84 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start" (click)="back()">
+      <ion-icon name="arrow-back-outline" class="backbtn"></ion-icon>
+    </ion-buttons>
+    <ion-title style="color: #fff;">{{ title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Playback section -->
+  <div text-center>
+    <!-- File name -->
+  
+
+    <!-- avatar -->
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <img src="{{image}}" alt="ihaveadream" class="songimg" />
+    </div>
+    <br>
+    <h3 style="text-align: center; color: #fff;">{{title}}</h3>
+    <br>
+    <p class="marquee">{{artist}}</p>
+    <!-- control bar -->
+    <div>
+      <ion-range min="0" max="{{duration}}" [(ngModel)]="position">
+        <!--  [disabled]="is_in_play && is_playing"  -->
+        <ion-label slot="start" style="color: #fff;">{{ position*1000 | date:'mm:ss' }}</ion-label>
+        <ion-label slot="end" *ngIf="duration == -1">--:--</ion-label>
+        <ion-label slot="end" *ngIf="duration != -1" style="color: #fff;">{{ duration*1000 | date:'mm:ss' }}</ion-label>
+      </ion-range>
+    </div>
+    <br>
+
+    <ion-grid>
+      <ion-row justify-content-center align-items-center style="height: 100%">
+        <ion-col>
+          <div class="flexRow">
+            <div>
+              <ion-button fill="clear" color="light">
+                <ion-icon name="flash-outline"></ion-icon>
+              </ion-button>
+            </div>
+  
+            <div>
+              <ion-button fill="clear" color="light"  [disabled]="!is_ready || !is_in_play" (click)="controlSeconds('back')">
+                <ion-icon name="play-back-outline"></ion-icon>
+              </ion-button>
+            </div>
+  
+            <div>
+              <ion-button class="play_pause_btn" (click)="playRecording()"  *ngIf="!is_playing"
+              [disabled]="!is_ready" justify-content-center>
+                <ion-icon name="play" class="darkColor"></ion-icon>
+              </ion-button>
+  
+              <ion-button class="play_pause_btn" (click)="pausePlayRecording()"  *ngIf="is_playing"
+              [disabled]="!is_ready"  align-items-center>
+                <ion-icon name="pause" class="darkColor"></ion-icon>
+              </ion-button>
+            </div>
+  
+            <div>
+              <ion-button fill="clear" color="light" [disabled]="!is_ready || !is_in_play" (click)="controlSeconds('forward')">
+                <ion-icon name="play-forward-outline" class="Iconsize_For_Rev"></ion-icon>
+              </ion-button>
+            </div>
+            <div>
+              <ion-button fill="clear" color="light" (click)="vote()">
+                <ion-icon [name]="hearticon" class="Iconsize_For_Rev"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  
+  </div>
+
+
+
+
+</ion-content>

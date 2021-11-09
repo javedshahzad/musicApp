@@ -1,0 +1,29 @@
+{
+    "data": {
+        "selected_language": "Ausgewählte deutsche Sprache",
+        "News": "Nachrichten",
+        "gotonews": "Zu den nationalen Nachrichten",
+        "stream": "Strom",
+        "ROCK": "FELSEN",
+        "POP": "POP",
+        "JAZZ": "JAZZ",
+        "COUNTRY": "LAND",
+        "METAL": "METALL",
+        "PUNK": "PUNK",
+        "ELECTRIC": "ELEKTRIK",
+        "WAVE": "WELLE",
+        "SCHLAGER": "SCHLAGER",
+        "OTHER": "SONSTIGES",
+        "Links": "Links",
+        "Facebook": "Facebook",
+        "Website": "Webseite",
+        "search_placeholder":"Geben Sie den Songtitel ein, um zu suchen",
+        "play":"Spiel",
+        "voted":"Habe zu diesem Lied gestimmt",
+        "already_voted":"Schon gewählt",
+        "went_back":"Zurückgegangen",
+        "went_forward":"Ging vorwärts",
+        "favourite":"Favorites",
+        "downloading_song":"Laden Sie das Lied herunter! Warten Sie mal..."
+    }
+}

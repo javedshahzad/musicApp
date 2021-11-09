@@ -1,0 +1,30 @@
+{
+    "data": {
+        "selected_language": "Selected English Language.",
+        "News": "News",
+        "gotonews": "Goto National News",
+        "stream": "Stream",
+        "ROCK": "ROCK",
+        "POP": "POP",
+        "JAZZ": "JAZZ",
+        "COUNTRY": "COUNTRY",
+        "METAL": "METAL",
+        "PUNK": "PUNK",
+        "ELECTRIC": "ELECTRIC",
+        "WAVE": "WAVE",
+        "SCHLAGER": "SCHLAGER",
+        "OTHER": "OTHER",
+        "Links": "Links",
+        "Facebook": "Facebook",
+        "Website": "Website",
+        "search_placeholder":"Enter song title to search",
+        "play":"Play",
+        "voted":"Voted to this song",
+        "already_voted":"Already Voted",
+        "went_back":"Went back",
+        "went_forward":"Went forward",
+        "favourite":"Favorites",
+        "downloading_song":"Downloading the song! Please wait..."
+
+    }
+}

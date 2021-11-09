@@ -1,5 +1,5 @@
 ion-menu ion-content {
-  --background: var(--ion-item-background, var(--ion-background-color, #fff));
+  --background: var(--ion-item-background, var(--ion-background-color, #303132));
 }
 
 ion-menu.md ion-content {
@@ -22,49 +22,31 @@ ion-menu.md ion-note {
   padding-left: 10px;
 }
 
-ion-menu.md ion-list#inbox-list {
-  border-bottom: 1px solid var(--ion-color-step-150, #d7d8da);
-}
 
-ion-menu.md ion-list#inbox-list ion-list-header {
-  font-size: 22px;
-  font-weight: 600;
 
-  min-height: 20px;
-}
-
-ion-menu.md ion-list#labels-list ion-list-header {
-  font-size: 16px;
-
-  margin-bottom: 18px;
-
-  color: #757575;
-
-  min-height: 26px;
-}
-
-ion-menu.md ion-item {
-  --padding-start: 10px;
-  --padding-end: 10px;
-  border-radius: 4px;
-}
 
 ion-menu.md ion-item.selected {
-  --background: rgba(var(--ion-color-primary-rgb), 0.14);
+  --background: #000000;
 }
 
-ion-menu.md ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
-}
 
-ion-menu.md ion-item ion-icon {
-  color: #616e7e;
-}
 
-ion-menu.md ion-item ion-label {
-  font-weight: 500;
+.hoverefect{
+  --background: transparent;
+  color: #B6B6B6;
+  font-weight: 400;
 }
+.hoverefect:hover{
+  color: #ffff;
+  --background:#000000;
+    width: 100%;
+  transition: all 0.5s ease;
 
+}
+// ion-menu.md ion-item ion-label:hover{
+//   --background-color: #00000000;
+//   border: 1px dashed red;
+// }
 ion-menu.ios ion-content {
   --padding-bottom: 20px;
 }
@@ -85,7 +67,7 @@ ion-menu.ios ion-item {
 }
 
 ion-menu.ios ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
+  color: #B6B6B6;
 }
 
 ion-menu.ios ion-item ion-icon {
@@ -115,5 +97,136 @@ ion-note {
 }
 
 ion-item.selected {
-  --color: var(--ion-color-primary);
+  color: #B6B6B6;
+  --background: #000000;
+ 
+
+}
+
+ .profile_content{
+  position: absolute;
+  left: 0;
+  bottom: 20px;
+  color: #303132;
+  width: 100%;
+  transition: all 0.4s ease;
+
+}
+ .profile_content .profile{
+  position: relative;
+  padding: 10px 6px;
+  height: 60px;
+  color: #303132;
+  background: #fbbe41;
+  transition: all 0.4s ease;
+}
+.profile_content .profile2{
+  position: relative;
+  padding: 6px 6px;
+  height: 60px;
+  color: #303132;
+  background: #fbbe41;
+  transition: all 0.4s ease;
+}
+ .profile_content .profile .profiledata{
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.profile_content .profile2 .profiledata{
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.profile .profiledata img{
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 50px;
+}
+.profile2 .profiledata img{
+  height: 50px;
+  width: 50px;
+  margin-left: 5px;
+  object-fit: cover;
+  border-radius: 50px;
+}
+.profile .profiledata .name_user{
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.profile2 .profiledata .name_user{
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.profile .profiledata .name{
+font-size: 15px;
+font-weight: 400;
+}
+.profile2 .profiledata .name{
+  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: 400;
+  }
+.profile .profiledata .name_user2{
+  margin-left: 20px;
+  margin-top: 1px;
+}
+.profile2 .profiledata .name_user2{
+  margin-left: 20px;
+  margin-top: 1px;
+}
+.profile .profiledata .name2{
+  text-transform: uppercase;
+font-size: 17px;
+font-weight: 400;
+}
+.profile2 .profiledata .name2{
+  text-transform: uppercase;
+  font-size: 17px;
+  font-weight: 400;
+  }
+.profile_content #log_in{
+  position: absolute;
+  bottom: 2px;
+  left: 26%;
+  transform: translateX(-50%);
+  min-width: 50px;
+  line-height: 50px;
+  font-size: 25px;
+  border-radius: 12px;
+  text-align: center;
+}
+.profile_content #log_out{
+  position: absolute;
+  bottom: 2px;
+  left: 75%;
+  transform: translateX(-50%);
+  min-width: 50px;
+  line-height: 50px;
+  font-size: 25px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.logo-img img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 60px;
+  border: 1px solid transparent;
+}
+.cross{
+  width: 40px;
+  position: absolute;
+  top: 2px;
+  right: -3px;
+  padding-top: -4px;
+  height: 60px;
+  color: #B6B6B6;
+  font-size: 28px;
+
 }
