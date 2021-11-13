@@ -9,23 +9,25 @@
 
 <ion-content>
   <ion-grid *ngIf="isFavourite">
-    <ion-row  class="main">
+    <ion-row  class="main"  *ngFor="let item of valuerarray">
       <ion-col size="4">
         <div class="image">
-          <img src="{{valuerarray.image}}" alt="Song image">
+          <img src="{{item.image}}" alt="Song image">
         </div>
       </ion-col>
       <ion-col size="4">
         <div class="contents">
-          <p>{{valuerarray.title}}</p>
-          <span class="mm">{{valuerarray.artist}}</span>
+          <p>{{item.title}}</p>
+          <span class="mm">{{item.artist}}</span>
         </div>
       </ion-col>
       <ion-col size="4">
-        <ion-button fill="clear" color="light" class="date" (click)="play(valuerarray)">
+        <ion-button fill="clear" color="light" class="date" (click)="play(item)">
           <span class="leftdate">{{language_data.play}}</span>
           <ion-icon class="leftdate" name="play"></ion-icon>
-       
+        </ion-button>
+        <ion-button color="danger" class="date" (click)="removefav(item)">
+         <span class="leftdate">{{language_data.remove}}</span>
         </ion-button>
       </ion-col>
     </ion-row>

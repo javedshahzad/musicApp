@@ -9,14 +9,23 @@ export class ApiService {
   public isupdateLanguage = new BehaviorSubject(true);
   songdata:any={};
   favorite_songs_aray:any=[];
+  ShuffleSongList:any=[];
+  language_data:any={};
   constructor(
     private loadingCtrl : LoadingController,
     private toastCtrl: ToastController,
-  ) { }
-
+  ) {
+    this.isupdateLanguage.subscribe(_isLogin=>{
+      this.getlanguage();
+    });
+   }
+   getlanguage(){
+    this.language_data = JSON.parse(localStorage.getItem("language_data"));
+    console.log(this.language_data);
+  }
   async startload(){
     let loadingEl = await this.loadingCtrl.create({
-      message: 'Please Wait...',
+      message: this.language_data.plaese_wait,
       duration:15000,
       spinner:"bubbles"
     });

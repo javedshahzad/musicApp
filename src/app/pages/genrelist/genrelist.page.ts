@@ -18,6 +18,7 @@ export class GenrelistPage implements OnInit {
   songtitle:any;
   searcharray:any=[];
   language_data:any={};
+  songdata:any={}
   constructor(
     private activeroute: ActivatedRoute,
     private http: HttpClient,
@@ -27,7 +28,7 @@ export class GenrelistPage implements OnInit {
     this.selectedgenre=this.activeroute.snapshot.paramMap.get('genre');
     this.Api.isupdateLanguage.subscribe(_isLogin=>{
       this.getlanguage();
-    })
+    });
 
   }
 
@@ -42,9 +43,10 @@ export class GenrelistPage implements OnInit {
       let arr=this.songslist;
       let x = arr.filter((a)=>{if(a.genre==this.selectedgenre){return a}});
       this.valuerarray=x;
+      this.Api.ShuffleSongList=x;
       this.Api.dismisloader();
-      console.log(this.valuerarray);
-
+      // console.log(this.valuerarray);
+  
 
     },(err)=>{
       this.Api.showtoast("Error Accur!Please check network");   
@@ -65,7 +67,7 @@ export class GenrelistPage implements OnInit {
         console.log(str2);
         let arrdata=this.songslist;
         //let x = arrdata.filter((a)=>{if(a.title==str2){return a}});
-        let x =arrdata.filter((a)=>a.title.toUpperCase().includes(str.toUpperCase()));
+        let x =arrdata.filter((a)=>a.title.toUpperCase().includes(str.toUpperCase()) || a.artist.toUpperCase().includes(str.toUpperCase()));
         // console.log(x);
         this.searcharray=x;
         if(this.searcharray.length != 0){
@@ -80,7 +82,18 @@ export class GenrelistPage implements OnInit {
         }
   }
   play(item){
-      console.log(item);
+      // console.log(item);
+      // const currentIndex = this.valuerarray.indexOf(item);
+      // const nextIndex = (currentIndex + 1) %  this.valuerarray.length;
+      // this.valuerarray[nextIndex];
+      // this.songdata=this.valuerarray[nextIndex];
+      // console.log(this.songdata)
+
+
+      // this.valuerarray[Math.floor(Math.random()*this.valuerarray.length)];
+      // console.log(this.valuerarray[Math.floor(Math.random()*this.valuerarray.length)])
+      
+      
       this.Api.songdata=item;
       localStorage.setItem("image",item.image);
       localStorage.setItem("source",item.source);

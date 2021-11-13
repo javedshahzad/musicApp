@@ -18,9 +18,9 @@
       <img src="{{image}}" alt="ihaveadream" class="songimg" />
     </div>
     <br>
-    <h3 style="text-align: center; color: #fff;">{{title}}</h3>
+    <h3 style="text-align: center; color: #fff;">Song: {{title}}</h3>
     <br>
-    <p class="marquee">{{artist}}</p>
+    <p class="marquee">Artist: {{artist}}</p>
     <!-- control bar -->
     <div>
       <ion-range min="0" max="{{duration}}" [(ngModel)]="position">
@@ -37,14 +37,14 @@
         <ion-col>
           <div class="flexRow">
             <div>
-              <ion-button fill="clear" color="light">
-                <ion-icon name="flash-outline"></ion-icon>
+              <ion-button fill="clear" color="light" (click)="shuffle()">
+                <ion-icon name="shuffle-outline"></ion-icon>
               </ion-button>
             </div>
   
             <div>
-              <ion-button fill="clear" color="light"  [disabled]="!is_ready || !is_in_play" (click)="controlSeconds('back')">
-                <ion-icon name="play-back-outline"></ion-icon>
+              <ion-button fill="clear" color="light"  (click)="controlSeconds('back')"  [disabled]="!is_ready">
+                <ion-icon name="caret-back-circle-outline" class="Iconsize_For_Rev"></ion-icon>
               </ion-button>
             </div>
   
@@ -61,8 +61,8 @@
             </div>
   
             <div>
-              <ion-button fill="clear" color="light" [disabled]="!is_ready || !is_in_play" (click)="controlSeconds('forward')">
-                <ion-icon name="play-forward-outline" class="Iconsize_For_Rev"></ion-icon>
+              <ion-button fill="clear" color="light"  (click)="controlSeconds('forward')" [disabled]="!is_ready">
+                <ion-icon name="caret-forward-circle-outline" class="Iconsize_For_Rev"></ion-icon>
               </ion-button>
             </div>
             <div>

@@ -24,7 +24,15 @@
         "went_back":"Went back",
         "went_forward":"Went forward",
         "favourite":"Favorites",
-        "downloading_song":"Downloading the song! Please wait..."
+        "downloading_song":"Downloading the song! Please wait...",
+        "plaese_wait":"Please Wait...",
+        "pause_at":"Pause At ",
+        "start_playing":"Start Playing from ",
+        "no_favourite_song_yet":"No Favourite song yet!",
+        "removed_favourite":"Removed From Favourite",
+        "remove":"Remove",
+        "random_songs":"Random songs Playings",
+        "lets_start":"Let's Start"
 
     }
 }
