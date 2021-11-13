@@ -285,6 +285,7 @@ export class MusicplayPage implements OnInit {
     localStorage.setItem("songid",this.songDetails.id);
     this.stopPlayRecording();
     this.getdatafromsong();
+    this.get_favouritesongcheck();
     setTimeout(() => {
       this.prepareAudioFile();
     }, 500);
