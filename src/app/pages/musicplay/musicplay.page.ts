@@ -398,8 +398,12 @@ export class MusicplayPage implements OnInit {
         }
         console.log(this.date_of_vote);
         this.hearticon="heart";
+      }else{
+        this.hearticon="heart-outline";
+        this.date_of_vote=0;
       }
     }else{
+      this.hearticon="heart-outline";
       this.date_of_vote=0;
     }
     // this.getfavourite=x;
