@@ -49,16 +49,15 @@ export class AppComponent implements OnInit {
           if(localStorage.getItem("selectedLanguage") != undefined || localStorage.getItem("selectedLanguage")==''){
           this.selectedLanguage=localStorage.getItem("selectedLanguage");
           }else{
-          this.selectedLanguage = this.translateConfigService.getDefaultLanguage();
+          this.selectedLanguage ='gr';
           }
-          console.log(this.selectedLanguage);
           localStorage.setItem("selectedLanguage",this.selectedLanguage);
+          console.log(this.selectedLanguage);
           this._translate.use(this.selectedLanguage);
           this._translate.get('data').subscribe((res: any) => {
           this.lanuagedata = res;
           localStorage.setItem("language_data",JSON.stringify(this.lanuagedata));
           this.api.isupdateLanguage.next(true);
-      // console.log(this.lanuagedata)
     });
   });
 

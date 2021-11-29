@@ -16,6 +16,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateConfigService } from './services/translate-config.service';
+import { MusicControls } from '@ionic-native/music-controls/ngx';
 
 export function LanguageLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -46,6 +47,7 @@ export function LanguageLoader(http: HttpClient) {
     SplashScreen,
     TranslateConfigService,
     StatusBar,
+    MusicControls,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent],

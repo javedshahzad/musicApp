@@ -44,6 +44,7 @@ export class FavouritesongPage implements OnInit {
   play(item){
     console.log(item);
     this.Api.songdata=item;
+    this.Api.ShuffleSongList=this.valuerarray;
     localStorage.setItem("image",item.image);
     localStorage.setItem("source",item.source);
     localStorage.setItem("title",item.title);

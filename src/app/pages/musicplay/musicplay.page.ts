@@ -9,6 +9,7 @@ import { File } from '@ionic-native/file/ngx';
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from 'src/app/services/api.service';
+import { MusicControls, MusicControlsOptions } from '@ionic-native/music-controls/ngx';
 
 
 @Component({
@@ -57,6 +58,7 @@ export class MusicplayPage implements OnInit {
     private http: HttpClient,
     private nav : NavController,
     private Api : ApiService,
+    private musicControls: MusicControls
   ) {
       this.getdatafromsong();
       this.Api.isupdateLanguage.subscribe(_isLogin=>{
@@ -227,9 +229,11 @@ export class MusicplayPage implements OnInit {
     this.is_ready = true;
     this.getAndSetCurrentAudioPosition();
     this.playRecording();
+ 
   }
   playRecording() {
     this.curr_playing_file.play();
+    
     this.toastCtrl
       .create({
         // position:"top",
@@ -238,6 +242,8 @@ export class MusicplayPage implements OnInit {
         duration: 2000
       })
       .then(toastEl => toastEl.present());
+      this.backgroundplay();
+      this.musicControls.updateIsPlaying(true);
   }
   pausePlayRecording() {
     this.curr_playing_file.pause();
@@ -247,19 +253,23 @@ export class MusicplayPage implements OnInit {
         duration: 2000
       })
       .then(toastEl => toastEl.present());
+      this.backgroundplay();
+     this.musicControls.updateIsPlaying(false);
   }
   stopPlayRecording() {
     this.curr_playing_file.stop();
     this.curr_playing_file.release();
     clearInterval(this.get_position_interval);
     this.position = 0;
+    // this.musicControls.updateIsPlaying(true);
   }
   ngOnDestroy() {
     this.stopPlayRecording();
+    this.musicControls.destroy();
   }
 
-  controlSeconds(action) {
-    var action=action;
+  controlSeconds() {
+    // var action=action;
     // const currentIndex = this.Api.ShuffleSongList.indexOf(this.Api.songdata);
     // const nextIndex = (currentIndex + 1) %  this.Api.ShuffleSongList.length;
     // this.Api.ShuffleSongList[nextIndex];
@@ -267,7 +277,7 @@ export class MusicplayPage implements OnInit {
     // this.songDetails=this.Api.ShuffleSongList[nextIndex];
 
     this.Api.ShuffleSongList[Math.floor(Math.random()*this.Api.ShuffleSongList.length)];
-    console.log(this.Api.ShuffleSongList[Math.floor(Math.random()*this.Api.ShuffleSongList.length)])
+    // console.log(this.Api.ShuffleSongList[Math.floor(Math.random()*this.Api.ShuffleSongList.length)])
 
     
     this.songDetails=this.Api.ShuffleSongList[Math.floor(Math.random()*this.Api.ShuffleSongList.length)];
@@ -286,6 +296,7 @@ export class MusicplayPage implements OnInit {
     this.stopPlayRecording();
     this.getdatafromsong();
     this.get_favouritesongcheck();
+    this.backgroundplay();
     setTimeout(() => {
       this.prepareAudioFile();
     }, 500);
@@ -343,7 +354,6 @@ export class MusicplayPage implements OnInit {
     var date = today3.getFullYear()+'-'+(today3.getMonth()+1)+'-'+today3.getDate();
     var time = today3.getHours() + ":" + today3.getMinutes() + ":" + today3.getSeconds();
     var dateTime = date;
-    console.log(dateTime);
    if(this.date_of_vote != dateTime){
     this.songid=localStorage.getItem("songid");
     this.Api.startload();
@@ -353,15 +363,41 @@ export class MusicplayPage implements OnInit {
         if(res=true){
           this.getfavourite = JSON.parse(localStorage.getItem("myfavoritesong"));
            if(this.getfavourite != undefined){
+            let arr2=this.getfavourite;
+            let x = arr2.filter((a)=>{if(a.id==localStorage.getItem("songid")){return a}});
+            console.log(x)
+            if(x.length > 0){
+            var id =  localStorage.getItem("songid");
+            console.log(id)
+            for(var i = 0; i < this.getfavourite.length; i++) {
+            if(this.getfavourite[i].id == id) {
+            this.getfavourite.splice(i, 1);
+            break;
+            }
+            }
             this.Api.songdata.voted_date=dateTime;
             let obj =this.Api.songdata;
             let arr = this.getfavourite ;
             // add obj to array
-             this.newwarr = [...arr,obj];
+            this.newwarr = [...arr,obj];
             console.log(this.newwarr) // [{ name: 'Bob' }, { name: 'John' }];
             localStorage.setItem("myfavoritesong",JSON.stringify(this.newwarr));
             this.hearticon="heart";
+            this.Api.dismisloader();
             this.Api.showtoast(this.language_data.voted);
+            }else{
+              this.Api.songdata.voted_date=dateTime;
+              let obj =this.Api.songdata;
+              let arr = this.getfavourite ;
+              // add obj to array
+               this.newwarr = [...arr,obj];
+              console.log(this.newwarr) // [{ name: 'Bob' }, { name: 'John' }];
+              localStorage.setItem("myfavoritesong",JSON.stringify(this.newwarr));
+              this.hearticon="heart";
+              this.Api.dismisloader();
+              this.Api.showtoast(this.language_data.voted);
+            }
+        
            }else{
             this.Api.songdata.voted_date=dateTime;
             let obj =this.Api.songdata;
@@ -371,23 +407,23 @@ export class MusicplayPage implements OnInit {
             console.log(this.newwarr) // [{ name: 'Bob' }, { name: 'John' }];
             localStorage.setItem("myfavoritesong",JSON.stringify(this.newwarr));
             this.hearticon="heart";
+            this.Api.dismisloader();
             this.Api.showtoast(this.language_data.voted);
            }
-           this.Api.dismisloader();
-        }else{
-          this.Api.dismisloader();
-          this.Api.showtoast(this.language_data.already_voted);
+       
         }
-      // console.log(this.valuerarray);
-
-
-    })
+    });
    }else{
     this.Api.showtoast(this.language_data.already_voted);
    }
    
   }
   get_favouritesongcheck(){
+       var today3 = new Date();
+    var date = today3.getFullYear()+'-'+(today3.getMonth()+1)+'-'+today3.getDate();
+    var time = today3.getHours() + ":" + today3.getMinutes() + ":" + today3.getSeconds();
+    var dateTime = date;
+    console.log(dateTime);
     this.getfavourite = JSON.parse(localStorage.getItem("myfavoritesong"));
     if(this.getfavourite != undefined){
       let arr=this.getfavourite;
@@ -397,8 +433,13 @@ export class MusicplayPage implements OnInit {
         for(const data of x){
           this.date_of_vote= data.voted_date;
         }
-        console.log(this.date_of_vote);
-        this.hearticon="heart";
+        if(this.date_of_vote != dateTime){
+          this.hearticon="heart-outline";
+        }else{
+          console.log(this.date_of_vote);
+          this.hearticon="heart";
+        }
+    
       }else{
         this.hearticon="heart-outline";
         this.date_of_vote=0;
@@ -407,11 +448,120 @@ export class MusicplayPage implements OnInit {
       this.hearticon="heart-outline";
       this.date_of_vote=0;
     }
-    // this.getfavourite=x;
+  }
+
+  backgroundplay(){
+    let option:MusicControlsOptions={
+                track       : this.title,        // optional, default : ''
+                artist      :this.artist,                       // optional, default : ''
+                cover       :this.image,      // optional, default : nothing
+                // cover can be a local path (use fullpath 'file:///storage/emulated/...', or only 'my_image.jpg' if my_image.jpg is in the www folder of your app)
+                //           or a remote url ('http://...', 'https://...', 'ftp://...')
+                isPlaying   : true,                         // optional, default : true
+                dismissable : true,                         // optional, default : false
+
+                // hide previous/next/close buttons:
+                hasPrev   : true,      // show previous button, optional, default: true
+                hasNext   : true,      // show next button, optional, default: true
+                hasClose  : true,       // show close button, optional, default: false
+
+                // iOS only, optional
+                album       : this.title,     // optional, default: ''
+                duration : 60, // optional, default: 0
+                elapsed : 10, // optional, default: 0
+                hasSkipForward : true,  // show skip forward button, optional, default: false
+                hasSkipBackward : true, // show skip backward button, optional, default: false
+                skipForwardInterval: 15, // display number for skip forward, optional, default: 0
+                skipBackwardInterval: 15, // display number for skip backward, optional, default: 0
+                hasScrubbing: false, // enable scrubbing from control center and lockscreen progress bar, optional
+
+                // Android only, optional
+                // text displayed in the status bar when the notification (and the ticker) are updated, optional
+                ticker    : 'Now playing'+this.title,
+                // All icons default to their built-in android equivalents
+                playIcon: 'media_play',
+                pauseIcon: 'media_pause',
+                prevIcon: 'media_prev',
+                nextIcon: 'media_next',
+                closeIcon: 'media_close',
+                notificationIcon: 'notification'
+    }
+    this.musicControls.create(option);
+    
+     this.musicControls.subscribe().subscribe(action => {
+      //  alert(action);
+         const message = JSON.parse(action).message;
+        //  alert(message);
+             switch(message) {
+                 case 'music-controls-next':
+                     // Do something
+                     this.controlSeconds();
+                     this.musicControls.updateIsPlaying(true);
+                     break;
+                 case 'music-controls-previous':
+                     // Do something
+                     this.controlSeconds();
+                     this.musicControls.updateIsPlaying(true);
+                     break;
+                 case 'music-controls-pause':
+                     // Do something
+                     this.pausePlayRecording();
+                    //  this.musicControls.updateIsPlaying(true);
+                    //  this.musicControls.updateElapsed(true)
+                     break;
+                 case 'music-controls-play':
+                     // Do something
+                     this.playRecording();
+                     break;
+                 case 'music-controls-destroy':
+                     // Do something
+                     this.ngOnDestroy();
+                     break;
+    
+             // External controls (iOS only)
+             case 'music-controls-toggle-play-pause' :
+                     // Do something
+                     break;
+             case 'music-controls-seek-to':
+              //  const seekToInSeconds = JSON.parse(action).position;
+              //  this.musicControls.updateElapsed({
+              //    elapsed: seekToInSeconds,
+              //    isPlaying: true
+              //  });
+               // Do something
+               break;
+             case 'music-controls-skip-forward':
+               // Do something
+               break;
+             case 'music-controls-skip-backward':
+               // Do something
+               break;
+    
+                 // Headset events (Android only)
+                 // All media button events are listed below
+                 case 'music-controls-media-button' :
+                     // Do something
+                     break;
+                 case 'music-controls-headset-unplugged':
+                     // Do something
+                     break;
+                 case 'music-controls-headset-plugged':
+                     // Do something
+                     break;
+                 default:
+                     break;
+             }
+        
+        });
+    
+     this.musicControls.listen(); // activates the observable above
+    
+    //  this.musicControls.updateIsPlaying(true);
+    
   }
   getlanguage(){
     this.language_data = JSON.parse(localStorage.getItem("language_data"));
-    console.log(this.language_data);
+    // console.log(this.language_data);
   }
   shuffle(){
     this.Api.showtoast("Random songs Playings");
