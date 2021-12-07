@@ -22,13 +22,16 @@ export class HomePage implements OnInit {
 
   ) { 
 
-    this.api.isupdateLanguage.subscribe(_isLogin=>{
-      this.getlanguage();
-    })
+
   
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.api.isupdateLanguage.subscribe(_isLogin=>{
+        this.getlanguage();
+      })
+    }, 500);
    
   }
   getlanguage(){

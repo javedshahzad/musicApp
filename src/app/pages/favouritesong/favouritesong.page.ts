@@ -34,8 +34,9 @@ export class FavouritesongPage implements OnInit {
     console.log(this.language_data);
   }
   getfavourite(){
-    this.valuerarray = JSON.parse(localStorage.getItem("myfavoritesong"));
-    if(this.valuerarray != undefined){
+    this.valuerarray = JSON.parse(localStorage.getItem("favSongForDisplay"));
+    console.log( this.valuerarray )
+    if(this.valuerarray != undefined && this.valuerarray.length !=0){
       this.isFavourite=true;
     }else{
       this.Api.showtoast(this.language_data.no_favourite_song_yet)
@@ -61,7 +62,7 @@ for(var i = 0; i < this.valuerarray.length; i++) {
         break;
     }
 }
-  localStorage.setItem("myfavoritesong",JSON.stringify(this.valuerarray));
+  localStorage.setItem("favSongForDisplay",JSON.stringify(this.valuerarray));
   this.getfavourite();
   this.Api.showtoast(this.language_data.removed_favourite);
   }

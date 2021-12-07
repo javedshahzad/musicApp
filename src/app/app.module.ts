@@ -17,6 +17,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateConfigService } from './services/translate-config.service';
 import { MusicControls } from '@ionic-native/music-controls/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 export function LanguageLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -44,6 +45,7 @@ export function LanguageLoader(http: HttpClient) {
     FileTransfer,
     FileTransferObject,
     DatePipe,
+    BackgroundMode,
     SplashScreen,
     TranslateConfigService,
     StatusBar,

@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from 'src/app/services/api.service';
 import { MusicControls, MusicControlsOptions } from '@ionic-native/music-controls/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 
 @Component({
@@ -47,6 +48,8 @@ export class MusicplayPage implements OnInit {
   source: string;
   newwarr:any=[];
   date_of_vote: any;
+  getfavfordisplay: any=[];
+  newwarr3: any=[];
   constructor(
     private platform: Platform,
     private loadingCtrl: LoadingController,
@@ -58,13 +61,21 @@ export class MusicplayPage implements OnInit {
     private http: HttpClient,
     private nav : NavController,
     private Api : ApiService,
-    private musicControls: MusicControls
+    private musicControls: MusicControls,
+    private backgroundMode: BackgroundMode
   ) {
       this.getdatafromsong();
       this.Api.isupdateLanguage.subscribe(_isLogin=>{
       this.getlanguage();
+      if(this.position > 0){
+        this.curr_playing_file.stop();
+        this.curr_playing_file.release();
+        clearInterval(this.get_position_interval);
+        this.musicControls.destroy();
+        this.position = 0;
+      }
     })
-      this. get_favouritesongcheck();
+      this.get_favouritesongcheck();
     this.platform.ready().then(() => {
       if (this.platform.is('ios')) {
         this.storageDirectory = this.file.dataDirectory;
@@ -92,7 +103,7 @@ export class MusicplayPage implements OnInit {
   prepareAudioFile() {
    
     // alert(source)
-
+    
     let url ='https://popsaxony.net/public/upload/songs/'+this.source;
     this.platform.ready().then(() => {
       this.file
@@ -128,11 +139,13 @@ export class MusicplayPage implements OnInit {
                 fileTransfer
                   .download(url, this.storageDirectory + this.filename)
                   .then(entry => {
+                    // alert("Download complete");
                     console.log('download complete' + entry.toURL());
                     loadingEl.dismiss();
                      this.getDurationAndSetToPlay();
                   })
                   .catch(err_2 => {
+
                     console.log('Download error!');
                     loadingEl.dismiss();
                     console.log(err_2);
@@ -175,15 +188,16 @@ export class MusicplayPage implements OnInit {
     // this.playRecording();
   }
   getAndSetCurrentAudioPosition() {
-    let diff = 1;
+    let diff = 2;
     let self = this;
     this.get_position_interval = setInterval(function() {
       let last_position = self.position;
       self.curr_playing_file.getCurrentPosition().then(position => {
+        // alert(position)
         if (position >= 0 && position < self.duration) {
           if (Math.abs(last_position - position) >= diff) {
             // set position
-            self.curr_playing_file.seekTo(last_position * 1000);
+             self.curr_playing_file.seekTo(last_position * 1000);
           } else {
             // update position for display
             self.position = position;
@@ -233,7 +247,6 @@ export class MusicplayPage implements OnInit {
   }
   playRecording() {
     this.curr_playing_file.play();
-    
     this.toastCtrl
       .create({
         // position:"top",
@@ -242,8 +255,10 @@ export class MusicplayPage implements OnInit {
         duration: 2000
       })
       .then(toastEl => toastEl.present());
-      this.backgroundplay();
-      this.musicControls.updateIsPlaying(true);
+     
+        this.backgroundplay();
+        this.musicControls.updateIsPlaying(true);
+  
   }
   pausePlayRecording() {
     this.curr_playing_file.pause();
@@ -253,8 +268,10 @@ export class MusicplayPage implements OnInit {
         duration: 2000
       })
       .then(toastEl => toastEl.present());
-      this.backgroundplay();
-     this.musicControls.updateIsPlaying(false);
+     
+        this.backgroundplay();
+        this.musicControls.updateIsPlaying(false);
+    
   }
   stopPlayRecording() {
     this.curr_playing_file.stop();
@@ -263,10 +280,16 @@ export class MusicplayPage implements OnInit {
     this.position = 0;
     // this.musicControls.updateIsPlaying(true);
   }
-  ngOnDestroy() {
-    this.stopPlayRecording();
-    this.musicControls.destroy();
-  }
+  // ngDoCheck() {
+  //   // alert("Changes fires");
+  //   this.stopPlayRecording();
+  //   this.musicControls.destroy();
+  // }
+  // ionViewWillLeave(){
+  //   this.stopPlayRecording();
+  //   this.musicControls.destroy();
+  //   this.backgroundMode.disable();
+  // }
 
   controlSeconds() {
     // var action=action;
@@ -300,6 +323,7 @@ export class MusicplayPage implements OnInit {
     setTimeout(() => {
       this.prepareAudioFile();
     }, 500);
+    //   let step = 15;
     // let number = this.position;
     // switch (action) {
     //   case 'back':
@@ -346,7 +370,9 @@ export class MusicplayPage implements OnInit {
     // ); // and we add Number s to the string (converting it to String as well)
   }
   back(){
-    this.nav.navigateBack("genrelist/"+localStorage.getItem("genre"))
+    this.nav.navigateBack("genrelist/"+localStorage.getItem("genre"));
+    // this.musicControls.destroy();
+    // this.stopPlayRecording();
   }
   vote(){
     this.get_favouritesongcheck();
@@ -354,6 +380,7 @@ export class MusicplayPage implements OnInit {
     var date = today3.getFullYear()+'-'+(today3.getMonth()+1)+'-'+today3.getDate();
     var time = today3.getHours() + ":" + today3.getMinutes() + ":" + today3.getSeconds();
     var dateTime = date;
+    this.getfavfordisplay = JSON.parse(localStorage.getItem("favSongForDisplay"));
    if(this.date_of_vote != dateTime){
     this.songid=localStorage.getItem("songid");
     this.Api.startload();
@@ -362,13 +389,12 @@ export class MusicplayPage implements OnInit {
         console.log(res);
         if(res=true){
           this.getfavourite = JSON.parse(localStorage.getItem("myfavoritesong"));
+          this.getfavfordisplay = JSON.parse(localStorage.getItem("favSongForDisplay"));
            if(this.getfavourite != undefined){
             let arr2=this.getfavourite;
             let x = arr2.filter((a)=>{if(a.id==localStorage.getItem("songid")){return a}});
-            console.log(x)
             if(x.length > 0){
             var id =  localStorage.getItem("songid");
-            console.log(id)
             for(var i = 0; i < this.getfavourite.length; i++) {
             if(this.getfavourite[i].id == id) {
             this.getfavourite.splice(i, 1);
@@ -378,21 +404,26 @@ export class MusicplayPage implements OnInit {
             this.Api.songdata.voted_date=dateTime;
             let obj =this.Api.songdata;
             let arr = this.getfavourite ;
+            let arr3 = this.getfavfordisplay;
             // add obj to array
             this.newwarr = [...arr,obj];
+            this.newwarr3 = [...arr3,obj];
             console.log(this.newwarr) // [{ name: 'Bob' }, { name: 'John' }];
             localStorage.setItem("myfavoritesong",JSON.stringify(this.newwarr));
+            localStorage.setItem("favSongForDisplay",JSON.stringify(this.newwarr3));
             this.hearticon="heart";
             this.Api.dismisloader();
             this.Api.showtoast(this.language_data.voted);
             }else{
               this.Api.songdata.voted_date=dateTime;
               let obj =this.Api.songdata;
-              let arr = this.getfavourite ;
+              let arr = this.getfavourite;
+              let arr3 = this.getfavfordisplay;
               // add obj to array
                this.newwarr = [...arr,obj];
-              console.log(this.newwarr) // [{ name: 'Bob' }, { name: 'John' }];
+               this.newwarr3 = [...arr3,obj];
               localStorage.setItem("myfavoritesong",JSON.stringify(this.newwarr));
+              localStorage.setItem("favSongForDisplay",JSON.stringify(this.newwarr3));
               this.hearticon="heart";
               this.Api.dismisloader();
               this.Api.showtoast(this.language_data.voted);
@@ -405,6 +436,7 @@ export class MusicplayPage implements OnInit {
             // add obj to array
              this.newwarr = [...arr,obj];
             console.log(this.newwarr) // [{ name: 'Bob' }, { name: 'John' }];
+            localStorage.setItem("favSongForDisplay",JSON.stringify(this.newwarr));
             localStorage.setItem("myfavoritesong",JSON.stringify(this.newwarr));
             this.hearticon="heart";
             this.Api.dismisloader();
@@ -414,6 +446,11 @@ export class MusicplayPage implements OnInit {
         }
     });
    }else{
+    // this.Api.songdata.voted_date=dateTime;
+    // let obj =this.Api.songdata;
+    // let arr3 = this.getfavfordisplay;
+    // this.newwarr3 = [...arr3,obj];
+    // localStorage.setItem("favSongForDisplay",JSON.stringify(this.newwarr3));
     this.Api.showtoast(this.language_data.already_voted);
    }
    
@@ -451,7 +488,19 @@ export class MusicplayPage implements OnInit {
   }
 
   backgroundplay(){
-    let option:MusicControlsOptions={
+    
+    // let url ='https://popsaxony.net/public/upload/songs/'+this.source;
+    // this.curr_playing_file = this.media.create(url);
+    // // on occassions, the plugin only gives duration of the file if the file is played
+    // // at least once
+    // this.curr_playing_file.play();
+
+    // this.curr_playing_file.setVolume(5.0);  // you don't want users to notice that you are playing the file
+
+
+          let step = 15;
+          let number = this.position;
+          let option:MusicControlsOptions={
                 track       : this.title,        // optional, default : ''
                 artist      :this.artist,                       // optional, default : ''
                 cover       :this.image,      // optional, default : nothing
@@ -487,7 +536,7 @@ export class MusicplayPage implements OnInit {
                 notificationIcon: 'notification'
     }
     this.musicControls.create(option);
-    
+    this.backgroundMode.enable();
      this.musicControls.subscribe().subscribe(action => {
       //  alert(action);
          const message = JSON.parse(action).message;
@@ -515,7 +564,8 @@ export class MusicplayPage implements OnInit {
                      break;
                  case 'music-controls-destroy':
                      // Do something
-                     this.ngOnDestroy();
+                     this.stopPlayRecording();
+                   this.musicControls.destroy();
                      break;
     
              // External controls (iOS only)
@@ -523,18 +573,33 @@ export class MusicplayPage implements OnInit {
                      // Do something
                      break;
              case 'music-controls-seek-to':
-              //  const seekToInSeconds = JSON.parse(action).position;
-              //  this.musicControls.updateElapsed({
-              //    elapsed: seekToInSeconds,
-              //    isPlaying: true
-              //  });
+               const seekToInSeconds = JSON.parse(action).position;
+               this.musicControls.updateElapsed({
+                 elapsed: seekToInSeconds,
+                 isPlaying: true
+               });
                // Do something
                break;
              case 'music-controls-skip-forward':
                // Do something
+                  this.position =
+                  number + step < this.duration ? number + step : this.duration;
+                  this.toastCtrl
+                  .create({
+                  message: `Went forward ${step}`,
+                  duration: 2000
+                  })
+                  .then(toastEl => toastEl.present());
                break;
              case 'music-controls-skip-backward':
                // Do something
+                  this.position = number < step ? 0.001 : number - step;
+                  this.toastCtrl
+                  .create({
+                  message: `Went back ${step}`,
+                  duration: 2000
+                  })
+                  .then(toastEl => toastEl.present());
                break;
     
                  // Headset events (Android only)

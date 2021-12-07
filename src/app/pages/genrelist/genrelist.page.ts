@@ -100,6 +100,7 @@ export class GenrelistPage implements OnInit {
       localStorage.setItem("title",item.title);
       localStorage.setItem("artist",item.artist)
       localStorage.setItem("songid",item.id)
+      this.Api.isupdateLanguage.next(true);
       this.nav.navigateForward("musicplay");
   }
   getlanguage(){
